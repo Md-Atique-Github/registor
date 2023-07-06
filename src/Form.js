@@ -1,17 +1,33 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function Form() {
 
 const data= {name:"", email:"", password:""};
 const [inputData, setInputData]= useState(data );
+const [flag , setFlag]= useState(false);
+useEffect(()=>{
+  console.log("Registered")
+},[flag])
 
 function handleData(e){
 setInputData({...inputData,[e.target.name]:e.target.value})
 console.log(inputData);
 }
 
+function handleSubmit(e){
+  e.preventDefault();
+  if(!inputData.name || !inputData.email || !inputData.password){
+    alert("fill all fields first")
+  }
+  else{
+    setFlag(true) 
+  }
+}
+
   return (
-    <form className='container'>
+    <>
+    <pre>{(flag)?<h2 className='ui-define' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>Hello {inputData.name}, You've Registered Successfully</h2>:""}</pre>
+    <form className='container' onSubmit={handleSubmit}>
         <div className='header'>
           <h1>Registration Form</h1>
         </div>
@@ -30,6 +46,7 @@ console.log(inputData);
             <button type='submit'>Submit</button>
         </div>
     </form>
+    </>
   )
 }
 
